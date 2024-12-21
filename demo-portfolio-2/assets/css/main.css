@@ -25,6 +25,26 @@
   --accent-color: #FF7F50; /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
   --surface-color: #ffffff; /* The surface color is used as a background of boxed elements within sections, such as cards, icon boxes, or other elements that require a visual separation from the global background. */
   --contrast-color: #ffffff; /* Contrast color for text, ensuring readability against backgrounds of accent, heading, or default colors. */
+
+
+
+  --h1-font-size:                 62px;
+  --h2-font-size:                 48px;
+  --h3-font-size:                 36px;
+  --h4-font-size:                 32px;
+  --h5-font-size:                 24px;
+  --h6-font-size:                 22px;
+  --p-font-size:                  18px;
+  --menu-font-size:               12px;
+  --copyright-font-size:          14px;
+
+  --border-radius-large:          100px;
+  --border-radius-medium:         20px;
+  --border-radius-small:          10px;
+
+  --font-weight-normal:           400;
+  --font-weight-medium:           500;
+  --font-weight-bold:             700;
 }
 
 /* Nav Menu Colors - The following color variables are used specifically for the navigation menu. They are separate from the global colors to allow for more customization options */
@@ -169,6 +189,49 @@ h6 {
 .scrolled .header {
   box-shadow: 0px 0 18px rgba(0, 0, 0, 0.1);
 }
+
+
+.custom-btn,
+.navbar .custom-btn {
+  font-size: var(--p-font-size);
+  font-weight: var(--font-weight-bold);
+}
+
+.navbar .custom-btn {
+  background: var(--background-color);
+  border-width: 2px;
+  border-style: solid;
+  border-color: var(--default-color);
+  color: var(--default-color);
+  padding: 8px 22px;
+}
+
+
+
+.navbar .custom-btn:hover {
+  background: var(--default-color);
+  border-color: transparent;
+  color: var(--background-color);
+}
+
+.custom-btn {
+  background: var(--background-color);
+  border-radius: var(--border-radius-large);
+  color: var(--default-color);
+  font-weight: var(--font-weight-bold);
+  padding: 12px 24px;
+}
+
+.custom-btn:hover {
+  background: var(--background-color);
+  box-shadow: 0 1rem 3rem rgba(0,0,0,.175);
+  color: var(--default-color);
+}
+
+.custom-link {
+	background-color: var(--background-color);
+}
+
 
 /*--------------------------------------------------------------
 # Navigation Menu
