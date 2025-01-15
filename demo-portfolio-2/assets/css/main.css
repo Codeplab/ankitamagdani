@@ -107,6 +107,14 @@ a {
   transition: 0.3s;
 }
 
+b {
+  font-family: var(--heading-font);
+}
+
+strong {
+  font-family: var(--heading-font);
+}
+
 
 .price-badge {
   font-size: smaller;
