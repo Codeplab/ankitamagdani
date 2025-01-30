@@ -74,7 +74,10 @@
 
   <!-- MAIN BODY -->
   <div class="container">
-    <h1 class="text-center my-4">Wheel of Life Assessment</h1>
+    <h1 class="text-center my-4 wheel-of-life">Wheel of Life Assessment</h1>
+
+    <p>Use the Wheel of Life to reflect on key areas like career, health, relationships, and more. Rate each area to see where you're thriving and where you could improve for a more balanced life. Feel free to revisit anytime!</p>
+    <br><br>
     
     <!-- Question Section -->
     <div id="questionContainer" class="question-container">
@@ -96,7 +99,7 @@
             </div>
             
             <div class="text-center">
-                <button id="nextButton" class="btn btn-primary">Next</button>
+                <button id="nextButton" class="btn" style="background-color: var(--accent-color); color: aliceblue;">Next</button>
             </div>
         </div>
     </div>
@@ -105,7 +108,7 @@
     <div id="resultsContainer" class="wheel-container hidden">
         <canvas id="wheelChart"></canvas>
         <div class="text-center mt-4">
-            <button id="restartButton" class="btn btn-secondary">Start Over</button>
+            <button id="restartButton" class="btn" style="background-color: var(--accent-color); color: aliceblue;">Start Over</button>
         </div>
     </div>
 </div>
