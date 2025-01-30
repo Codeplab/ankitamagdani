@@ -221,97 +221,148 @@
         <div id="description-box" class="description-box"></div>
       </div>
     </section>
-        <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
     <script>
-        // Define hierarchical data for the Feeling Wheel
-        const data = {
-            name: "Feelings",
-            children: [
-                { name: "Happy", children: [{ name: "Excited", children: [{ name: "Energetic" }, { name: "Eager" }] }, { name: "Proud", children: [{ name: "Accomplished" }, { name: "Confident" }] }] },
-                { name: "Sad", children: [{ name: "Lonely", children: [{ name: "Isolated" }, { name: "Abandoned" }] }, { name: "Guilty", children: [{ name: "Ashamed" }, { name: "Regretful" }] }] },
-                { name: "Angry", children: [{ name: "Frustrated", children: [{ name: "Irritated" }, { name: "Annoyed" }] }, { name: "Hostile", children: [{ name: "Hateful" }, { name: "Vengeful" }] }] },
-                { name: "Fearful", children: [{ name: "Anxious", children: [{ name: "Worried" }, { name: "Nervous" }] }, { name: "Overwhelmed", children: [{ name: "Stressed" }, { name: "Shocked" }] }] }
-            ]
-        };
-  
-        function drawChart() {
-            d3.select("#chart").selectAll("*").remove(); // Clear existing chart
-  
-            const containerWidth = document.getElementById("chart-container").clientWidth;
-            const size = Math.min(containerWidth, 650); // Scale down for small screens
-            const radius = size / 2;
-  
-            const svg = d3.select("#chart")
-                .attr("viewBox", `0 0 ${size} ${size}`)
-                .attr("preserveAspectRatio", "xMidYMid meet")
-                .append("g")
-                .attr("transform", `translate(${radius}, ${radius})`);
-  
-            const partition = d3.partition().size([2 * Math.PI, radius]);
-  
-            const root = d3.hierarchy(data)
-                .sum(d => d.children ? 0 : 1)
-                .sort((a, b) => b.value - a.value);
-  
-            partition(root);
-  
-            const color = d3.scaleOrdinal(d3.schemeCategory10);
-  
-            const arc = d3.arc()
-                .startAngle(d => d.x0)
-                .endAngle(d => d.x1)
-                .innerRadius(d => d.y0)
-                .outerRadius(d => d.y1);
-  
-            const tooltip = d3.select("body").append("div")
-                .attr("class", "tooltip")
-                .style("opacity", 0)
-                .style("position", "absolute")
-                .style("background", "white")
-                .style("border", "1px solid black")
-                .style("padding", "5px")
-                .style("border-radius", "5px")
-                .style("pointer-events", "none");
-  
-            svg.selectAll("path")
-                .data(root.descendants())
-                .join("path")
-                .attr("d", arc)
-                .attr("fill", d => color((d.children ? d : d.parent).data.name))
-                .on("mouseover", (event, d) => {
-                    tooltip.style("opacity", 1)
-                        .html(d.data.name)
-                        .style("left", (event.pageX + 5) + "px")
-                        .style("top", (event.pageY - 5) + "px");
-                })
-                .on("mouseout", () => tooltip.style("opacity", 0));
-  
-            // Responsive Text
-            svg.selectAll("text")
-                .data(root.descendants().filter(d => d.depth > 0))
-                .join("text")
-                .attr("transform", d => `translate(${arc.centroid(d)}) rotate(${(d.x0 + d.x1) / 2 * 180 / Math.PI - 90})`)
-                .attr("text-anchor", "middle")
-                .attr("alignment-baseline", "middle")
-                .style("font-size", size < 400 ? "8px" : "12px") // Smaller font for small screens
-                .style("fill", "black")
-                .text(d => d.data.name);
-        }
-  
-        drawChart();
-        window.addEventListener("resize", drawChart); // Redraw on resize
+      // Define hierarchical data for the Feeling Wheel
+      const data = {
+          name: "Feelings",
+          children: [
+              { name: "Happy", children: [{ name: "Excited", children: [{ name: "Energetic" }, { name: "Eager" }] }, { name: "Proud", children: [{ name: "Accomplished" }, { name: "Confident" }] }] },
+              { name: "Sad", children: [{ name: "Lonely", children: [{ name: "Isolated" }, { name: "Abandoned" }] }, { name: "Guilty", children: [{ name: "Ashamed" }, { name: "Regretful" }] }] },
+              { name: "Angry", children: [{ name: "Frustrated", children: [{ name: "Irritated" }, { name: "Annoyed" }] }, { name: "Hostile", children: [{ name: "Hateful" }, { name: "Vengeful" }] }] },
+              { name: "Fearful", children: [{ name: "Anxious", children: [{ name: "Worried" }, { name: "Nervous" }] }, { name: "Overwhelmed", children: [{ name: "Stressed" }, { name: "Shocked" }] }] }
+          ]
+      };
+
+      // Define links for each feeling
+      const feelingLinks = {
+          "Happy": "https://www.psychologytoday.com/happiness",
+          "Excited": "https://www.verywellmind.com/what-is-excitement-5184378",
+          "Energetic": "https://www.healthline.com/energy-boosting-tips",
+          "Eager": "https://www.inc.com/motivation-to-succeed",
+          "Proud": "https://www.psychologytoday.com/pride-and-self-esteem",
+          "Accomplished": "https://www.verywellmind.com/feeling-of-accomplishment-5184379",
+          "Confident": "https://www.mindtools.com/self-confidence",
+          "Sad": "https://www.helpguide.org/articles/depression/dealing-with-depression.htm",
+          "Lonely": "https://www.psychologytoday.com/loneliness",
+          "Isolated": "https://www.healthline.com/mental-health/social-isolation",
+          "Abandoned": "https://www.verywellmind.com/dealing-with-feelings-of-abandonment-5184380",
+          "Guilty": "https://www.psychologytoday.com/guilt-and-how-to-overcome-it",
+          "Ashamed": "https://www.verywellmind.com/shame-and-how-to-overcome-it-5184381",
+          "Regretful": "https://www.psychologytoday.com/regret-and-how-to-move-forward",
+          "Angry": "https://www.verywellmind.com/anger-management-tips-5184382",
+          "Frustrated": "https://www.psychologytoday.com/frustration-management",
+          "Irritated": "https://www.verywellmind.com/dealing-with-irritability-5184383",
+          "Annoyed": "https://www.healthline.com/mental-health/how-to-handle-annoyance",
+          "Hostile": "https://www.psychologytoday.com/hostility-and-how-to-deal-with-it",
+          "Hateful": "https://www.verywellmind.com/managing-hatred-5184384",
+          "Vengeful": "https://www.psychologytoday.com/why-do-we-feel-vengeful",
+          "Fearful": "https://www.verywellmind.com/how-to-handle-fear-5184385",
+          "Anxious": "https://www.healthline.com/mental-health/anxiety",
+          "Worried": "https://www.psychologytoday.com/how-to-stop-worrying",
+          "Nervous": "https://www.verywellmind.com/how-to-handle-nervousness-5184386",
+          "Overwhelmed": "https://www.healthline.com/mental-health/feeling-overwhelmed",
+          "Stressed": "https://www.psychologytoday.com/stress-management",
+          "Shocked": "https://www.verywellmind.com/handling-shock-and-surprise-5184387"
+      };
+
+      function drawChart() {
+          d3.select("#chart").selectAll("*").remove(); // Clear existing chart
+
+          const containerWidth = document.getElementById("chart-container").clientWidth;
+          const size = Math.min(containerWidth, 650);
+          const radius = size / 2;
+
+          const svg = d3.select("#chart")
+              .attr("viewBox", `0 0 ${size} ${size}`)
+              .attr("preserveAspectRatio", "xMidYMid meet")
+              .append("g")
+              .attr("transform", `translate(${radius}, ${radius})`);
+
+          const partition = d3.partition().size([2 * Math.PI, radius]);
+
+          const root = d3.hierarchy(data)
+              .sum(d => d.children ? 0 : 1)
+              .sort((a, b) => b.value - a.value);
+
+          partition(root);
+
+          const color = d3.scaleOrdinal(d3.schemeCategory10);
+
+          const arc = d3.arc()
+              .startAngle(d => d.x0)
+              .endAngle(d => d.x1)
+              .innerRadius(d => d.y0)
+              .outerRadius(d => d.y1);
+
+          const tooltip = d3.select("body").append("div")
+              .attr("class", "tooltip")
+              .style("opacity", 0)
+              .style("position", "absolute")
+              .style("background", "white")
+              .style("border", "1px solid black")
+              .style("padding", "5px")
+              .style("border-radius", "5px")
+              .style("pointer-events", "none");
+
+          svg.selectAll("path")
+              .data(root.descendants())
+              .join("path")
+              .attr("d", arc)
+              .attr("fill", d => color((d.children ? d : d.parent).data.name))
+              .on("mouseover", (event, d) => {
+                  tooltip.style("opacity", 1)
+                      .html(`<strong>${d.data.name}</strong>`)
+                      .style("left", (event.pageX + 5) + "px")
+                      .style("top", (event.pageY - 5) + "px");
+              })
+              .on("mouseout", () => tooltip.style("opacity", 0));
+
+          // Create text paths for curved text
+          const textPaths = svg.append("defs")
+              .selectAll("path")
+              .data(root.descendants().filter(d => d.depth > 0))
+              .join("path")
+              .attr("id", (d, i) => `textPath-${i}`)
+              .attr("d", d => {
+                  const [x, y] = arc.centroid(d);
+                  const midAngle = (d.x0 + d.x1) / 2;
+                  const radius = (d.y0 + d.y1) / 2;
+                  const startX = Math.cos(midAngle - 0.2) * radius;
+                  const startY = Math.sin(midAngle - 0.2) * radius;
+                  const endX = Math.cos(midAngle + 0.2) * radius;
+                  const endY = Math.sin(midAngle + 0.2) * radius;
+                  return `M ${startX} ${startY} A ${radius} ${radius} 0 0 1 ${endX} ${endY}`;
+              });
+
+          // Add clickable text elements that follow the curve
+          const textGroups = svg.selectAll("g.text-group")
+              .data(root.descendants().filter(d => d.depth > 0))
+              .join("g")
+              .attr("class", "text-group")
+              .style("cursor", d => feelingLinks[d.data.name] ? "pointer" : "default")
+              .on("click", (event, d) => {
+                  if (feelingLinks[d.data.name]) {
+                      window.open(feelingLinks[d.data.name], "_blank");
+                  }
+              });
+
+          textGroups.append("text")
+              .append("textPath")
+              .attr("xlink:href", (d, i) => `#textPath-${i}`)
+              .attr("startOffset", "50%")
+              .style("text-anchor", "middle")
+              .style("font-size", size < 400 ? "8px" : "12px")
+              .style("fill", "black")
+              .style("text-decoration", d => feelingLinks[d.data.name] ? "underline" : "none")
+              .text(d => d.data.name);
+      }
+
+      drawChart();
+      window.addEventListener("resize", drawChart);
     </script>
-  
-    <style>
-        #chart-container {
-            display: flex;
-            justify-content: center;
-            width: 100%;
-            max-width: 500px;
-            margin: auto;
-        }
-    </style>
-  
+
+    
 
         <!-- Services 2 Section -->
         <section id="services-2" class="services-2 section">

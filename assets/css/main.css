@@ -2394,7 +2394,7 @@ section,
 }
 
 /*  ------------------------------------------
-WHEEL OF LIFE
+WHEEL OF LIFE/FEELING WHEEL
  ------------------------------------------ */
 .question-container {
   max-width: 600px;
@@ -2421,4 +2421,12 @@ WHEEL OF LIFE
 .progress {
   height: 10px;
   margin: 20px 0;
+}
+
+#chart-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
 }
