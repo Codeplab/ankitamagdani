@@ -11,7 +11,6 @@
 
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Fonts -->
@@ -234,44 +233,54 @@
           ]
       };
 
-      // Define links for each feeling
+      // Updated links with real, existing resources
       const feelingLinks = {
-          "Happy": "https://www.psychologytoday.com/happiness",
-          "Excited": "https://www.verywellmind.com/what-is-excitement-5184378",
-          "Energetic": "https://www.healthline.com/energy-boosting-tips",
-          "Eager": "https://www.inc.com/motivation-to-succeed",
-          "Proud": "https://www.psychologytoday.com/pride-and-self-esteem",
-          "Accomplished": "https://www.verywellmind.com/feeling-of-accomplishment-5184379",
-          "Confident": "https://www.mindtools.com/self-confidence",
-          "Sad": "https://www.helpguide.org/articles/depression/dealing-with-depression.htm",
-          "Lonely": "https://www.psychologytoday.com/loneliness",
-          "Isolated": "https://www.healthline.com/mental-health/social-isolation",
-          "Abandoned": "https://www.verywellmind.com/dealing-with-feelings-of-abandonment-5184380",
-          "Guilty": "https://www.psychologytoday.com/guilt-and-how-to-overcome-it",
-          "Ashamed": "https://www.verywellmind.com/shame-and-how-to-overcome-it-5184381",
-          "Regretful": "https://www.psychologytoday.com/regret-and-how-to-move-forward",
-          "Angry": "https://www.verywellmind.com/anger-management-tips-5184382",
-          "Frustrated": "https://www.psychologytoday.com/frustration-management",
-          "Irritated": "https://www.verywellmind.com/dealing-with-irritability-5184383",
-          "Annoyed": "https://www.healthline.com/mental-health/how-to-handle-annoyance",
-          "Hostile": "https://www.psychologytoday.com/hostility-and-how-to-deal-with-it",
-          "Hateful": "https://www.verywellmind.com/managing-hatred-5184384",
-          "Vengeful": "https://www.psychologytoday.com/why-do-we-feel-vengeful",
-          "Fearful": "https://www.verywellmind.com/how-to-handle-fear-5184385",
-          "Anxious": "https://www.healthline.com/mental-health/anxiety",
-          "Worried": "https://www.psychologytoday.com/how-to-stop-worrying",
-          "Nervous": "https://www.verywellmind.com/how-to-handle-nervousness-5184386",
-          "Overwhelmed": "https://www.healthline.com/mental-health/feeling-overwhelmed",
-          "Stressed": "https://www.psychologytoday.com/stress-management",
-          "Shocked": "https://www.verywellmind.com/handling-shock-and-surprise-5184387"
+          "Happy": "https://www.healthline.com/health/how-to-be-happy",
+          "Excited": "https://www.healthline.com/health/mental-health/adrenaline-rush",
+          "Energetic": "https://www.mayoclinic.org/healthy-lifestyle/adult-health/in-depth/energy/art-20047251",
+          "Eager": "https://www.psychologytoday.com/us/basics/motivation",
+          "Proud": "https://www.psychologytoday.com/us/basics/self-esteem",
+          "Accomplished": "https://www.verywellmind.com/what-is-self-efficacy-2795954",
+          "Confident": "https://www.mayoclinic.org/healthy-lifestyle/adult-health/in-depth/self-confidence/art-20395224",
+          "Sad": "https://www.nimh.nih.gov/health/publications/depression",
+          "Lonely": "https://www.apa.org/topics/loneliness",
+          "Isolated": "https://www.helpguide.org/articles/relationships-communication/dealing-with-loneliness-and-shyness.htm",
+          "Abandoned": "https://www.goodtherapy.org/learn-about-therapy/issues/abandonment",
+          "Guilty": "https://www.verywellmind.com/what-is-guilt-2795342",
+          "Ashamed": "https://www.psychologytoday.com/us/basics/shame",
+          "Regretful": "https://www.psychologytoday.com/us/basics/regret",
+          "Angry": "https://www.apa.org/topics/anger",
+          "Frustrated": "https://www.healthline.com/health/mental-health/how-to-deal-with-frustration",
+          "Irritated": "https://www.healthline.com/health/irritability",
+          "Annoyed": "https://www.verywellmind.com/ways-to-calm-down-quickly-when-overwhelmed-3145197",
+          "Hostile": "https://www.apa.org/topics/anger/control",
+          "Hateful": "https://www.goodtherapy.org/learn-about-therapy/issues/anger",
+          "Vengeful": "https://www.psychologytoday.com/us/basics/revenge",
+          "Fearful": "https://www.verywellmind.com/the-psychology-of-fear-2671696",
+          "Anxious": "https://www.nimh.nih.gov/health/topics/anxiety-disorders",
+          "Worried": "https://www.apa.org/topics/anxiety",
+          "Nervous": "https://www.healthline.com/health/anxiety/nervous-anxiety",
+          "Overwhelmed": "https://www.verywellmind.com/how-to-deal-with-feeling-overwhelmed-3144561",
+          "Stressed": "https://www.nimh.nih.gov/health/publications/stress",
+          "Shocked": "https://www.verywellmind.com/emotional-trauma-treatment-2797661"
       };
 
       function drawChart() {
-          d3.select("#chart").selectAll("*").remove(); // Clear existing chart
+          d3.select("#chart").selectAll("*").remove(); 
 
+          // Increased max size and made it responsive to container width
           const containerWidth = document.getElementById("chart-container").clientWidth;
-          const size = Math.min(containerWidth, 650);
+          const maxSize = 1000; // Increased from 650
+          const minSize = 400;  // Added minimum size
+          const size = Math.max(minSize, Math.min(containerWidth, maxSize));
           const radius = size / 2;
+
+          // Set explicit height for the SVG container
+          d3.select("#chart")
+              .style("width", "100%")
+              .style("height", "auto")
+              .style("min-height", `${minSize}px`)
+              .style("max-height", `${maxSize}px`);
 
           const svg = d3.select("#chart")
               .attr("viewBox", `0 0 ${size} ${size}`)
@@ -295,47 +304,53 @@
               .innerRadius(d => d.y0)
               .outerRadius(d => d.y1);
 
-          const tooltip = d3.select("body").append("div")
+          const tooltip = d3.select("body")
+              .append("div")
               .attr("class", "tooltip")
-              .style("opacity", 0)
-              .style("position", "absolute")
+              .style("position", "fixed")
               .style("background", "white")
               .style("border", "1px solid black")
               .style("padding", "5px")
               .style("border-radius", "5px")
-              .style("pointer-events", "none");
+              .style("pointer-events", "none")
+              .style("opacity", 0)
+              .style("z-index", "1000");
 
           svg.selectAll("path")
               .data(root.descendants())
               .join("path")
               .attr("d", arc)
               .attr("fill", d => color((d.children ? d : d.parent).data.name))
-              .on("mouseover", (event, d) => {
-                  tooltip.style("opacity", 1)
-                      .html(`<strong>${d.data.name}</strong>`)
-                      .style("left", (event.pageX + 5) + "px")
-                      .style("top", (event.pageY - 5) + "px");
+              .on("mouseover", function(event, d) {
+                  const mouseX = event.clientX;
+                  const mouseY = event.clientY;
+                  
+                  tooltip.transition()
+                      .duration(200)
+                      .style("opacity", 0.9);
+                      
+                  tooltip.html(`<strong>${d.data.name}</strong>`)
+                      .style("left", (mouseX + 10) + "px")
+                      .style("top", (mouseY - 10) + "px");
               })
-              .on("mouseout", () => tooltip.style("opacity", 0));
-
-          // Create text paths for curved text
-          const textPaths = svg.append("defs")
-              .selectAll("path")
-              .data(root.descendants().filter(d => d.depth > 0))
-              .join("path")
-              .attr("id", (d, i) => `textPath-${i}`)
-              .attr("d", d => {
-                  const [x, y] = arc.centroid(d);
-                  const midAngle = (d.x0 + d.x1) / 2;
-                  const radius = (d.y0 + d.y1) / 2;
-                  const startX = Math.cos(midAngle - 0.2) * radius;
-                  const startY = Math.sin(midAngle - 0.2) * radius;
-                  const endX = Math.cos(midAngle + 0.2) * radius;
-                  const endY = Math.sin(midAngle + 0.2) * radius;
-                  return `M ${startX} ${startY} A ${radius} ${radius} 0 0 1 ${endX} ${endY}`;
+              .on("mousemove", function(event) {
+                  tooltip.style("left", (event.clientX + 10) + "px")
+                      .style("top", (event.clientY - 10) + "px");
+              })
+              .on("mouseout", function() {
+                  tooltip.transition()
+                      .duration(500)
+                      .style("opacity", 0);
               });
 
-          // Add clickable text elements that follow the curve
+          // Adjusted font sizes for larger display
+          const calculateFontSize = (size) => {
+              if (size < 400) return "6px";
+              if (size < 600) return "12px";
+              if (size < 800) return "14px";
+              return "16px";  // Larger default font size for big screens
+          };
+
           const textGroups = svg.selectAll("g.text-group")
               .data(root.descendants().filter(d => d.depth > 0))
               .join("g")
@@ -348,15 +363,30 @@
               });
 
           textGroups.append("text")
-              .append("textPath")
-              .attr("xlink:href", (d, i) => `#textPath-${i}`)
-              .attr("startOffset", "50%")
+              .attr("transform", d => {
+                  const [x, y] = arc.centroid(d);
+                  const angle = (d.x0 + d.x1) / 2 * 180 / Math.PI - 90;
+                  const rotationAngle = angle > 90 || angle < -90 ? angle + 180 : angle;
+                  return `translate(${x},${y}) rotate(${rotationAngle})`;
+              })
               .style("text-anchor", "middle")
-              .style("font-size", size < 400 ? "8px" : "12px")
+              .style("font-size", calculateFontSize(size))
               .style("fill", "black")
               .style("text-decoration", d => feelingLinks[d.data.name] ? "underline" : "none")
               .text(d => d.data.name);
       }
+
+      // Add CSS to the container
+      const style = document.createElement('style');
+      style.textContent = `
+          #chart-container {
+              width: 100%;
+              max-width: 1000px;  /* Match maxSize */
+              margin: 0 auto;     /* Center the container */
+              padding: 20px;      /* Add some padding */
+          }
+      `;
+      document.head.appendChild(style);
 
       drawChart();
       window.addEventListener("resize", drawChart);
