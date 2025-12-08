@@ -994,6 +994,32 @@ section,
   color: var(--accent-color);
 }
 
+
+.btn-insurance {
+  background-color: var(--accent-color);
+  border-radius: 30px;
+  padding: 8px 30px;
+  border: 2px solid transparent;
+  transition: 0.3s all ease-in-out;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  width: fit-content;
+  align-items: center;
+  color: white !important;
+}
+
+a.btn-insurance {
+  color: white !important;
+}
+
+.btn-insurance:hover {
+  border-color: var(--accent-color);
+  background-color: transparent;
+  color: #9669ce !important;
+}
+
+
 /*--------------------------------------------------------------
 # Tabs Section
 --------------------------------------------------------------*/
